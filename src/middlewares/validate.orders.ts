@@ -1,18 +1,17 @@
 import { NextFunction, Request, Response } from 'express';
 import Joi from 'joi';
 import Error from '../interface/error.interface';
-import Products from '../interface/products.interface';
 import statusCodes from '../../statusCodes';
+import Orders from '../interface/orders.interface';
 
-const validateLogin = (product: Products): Error => {
+const validateLogin = (orders: Orders): Error => {
   const PRODUCTS = Joi.object({
-    name: Joi.string().min(3).required(),
-    amount: Joi.string().min(3).required(),
+    productsIds: Joi.array().items(Joi.number().required()).required(),
   });
 
-  const { error } = PRODUCTS.validate(product);
+  const { error } = PRODUCTS.validate(orders);
   if (error) {
-    if (error.message.includes('must be')) {
+    if (error.message.includes('must')) {
       return { type: statusCodes.UN_ENTITY, message: error.message };
     }
     return { type: statusCodes.BAD_REQUEST, message: error.message };
