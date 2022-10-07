@@ -1,4 +1,4 @@
-import { Pool, ResultSetHeader } from 'mysql2/promise';
+import { Pool, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
 import User from '../interface/user.interface';
 
 export default class UserModel {
@@ -18,5 +18,14 @@ export default class UserModel {
     const [dataInserted] = result;
     const { insertId } = dataInserted;
     return { id: insertId, ...user };
+  }
+
+  public async getByUsername(username: string): Promise<User> {
+    const [[user]] = await this.connection
+      .execute<(
+    User & RowDataPacket)[]>('SELECT * FROM Trybesmith.Users WHERE username = ?',
+      [username],
+      );
+    return user as User;
   }
 }
