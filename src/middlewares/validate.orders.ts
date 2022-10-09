@@ -6,13 +6,18 @@ import Orders from '../interface/orders.interface';
 
 const validateLogin = (orders: Orders): Error => {
   const PRODUCTS = Joi.object({
-    productsIds: Joi.array().items(Joi.number().required()).required(),
+    productsIds: Joi.array().items(Joi.number()
+      .required()).required(),
   });
 
   const { error } = PRODUCTS.validate(orders);
+  console.log(error);
+
   if (error) {
-    if (error.message.includes('must')) {
-      return { type: statusCodes.UN_ENTITY, message: error.message };
+    if (error.message.includes('must be an')) {
+      return { type: 422, message: error.message };
+    } if (error.message.includes('1')) {
+      return { type: 422, message: '"productsIds" must include only numbers' };
     }
     return { type: statusCodes.BAD_REQUEST, message: error.message };
   }
@@ -22,8 +27,10 @@ const validateLogin = (orders: Orders): Error => {
 export default (req: Request, res: Response, next: NextFunction) => {
   const product = req.body;
   const { type, message } = validateLogin(product);
-  
+
   if (type !== 200) {
+    console.log('type', type);
+    
     return res.status(type).json({ message });
   }
 

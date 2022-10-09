@@ -13,7 +13,7 @@ const validateLogin = (product: Products): Error => {
   const { error } = PRODUCTS.validate(product);
   if (error) {
     if (error.message.includes('must be')) {
-      return { type: statusCodes.UN_ENTITY, message: error.message };
+      return { type: 422, message: error.message };
     }
     return { type: statusCodes.BAD_REQUEST, message: error.message };
   }
