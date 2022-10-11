@@ -4,9 +4,7 @@ import LoginService from '../service/login.service';
 export default class LoginController {
   constructor(private loginService = new LoginService()) { }
 
-  public login = async (req: Request, res: Response) => {
-    console.log('ENNNNTROU');
-    
+  public login = async (req: Request, res: Response) => {    
     const { username, password } = req.body;
     const { type, message, message: token } = await this.loginService.login(username, password);
 

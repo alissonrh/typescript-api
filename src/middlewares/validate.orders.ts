@@ -6,13 +6,12 @@ import Orders from '../interface/orders.interface';
 
 const validateLogin = (orders: Orders): Error => {
   const PRODUCTS = Joi.object({
+    userId: Joi.number(),
     productsIds: Joi.array().items(Joi.number()
       .required()).required(),
   });
 
   const { error } = PRODUCTS.validate(orders);
-  console.log(error);
-
   if (error) {
     if (error.message.includes('must be an')) {
       return { type: 422, message: error.message };
@@ -29,8 +28,6 @@ export default (req: Request, res: Response, next: NextFunction) => {
   const { type, message } = validateLogin(product);
 
   if (type !== 200) {
-    console.log('type', type);
-    
     return res.status(type).json({ message });
   }
 

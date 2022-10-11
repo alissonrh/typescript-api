@@ -16,4 +16,9 @@ export default class UserService {
     const token = await generateToken({ username, password });    
     return { token };
   }
+
+  public async getByIsername(name: string): Promise<User> {
+    const id = await this.model.getByUsername(name);
+    return id;
+  }
 }

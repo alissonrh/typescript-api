@@ -9,4 +9,9 @@ export default class ProductsController {
     const orders = await this.orderService.getAll();
     res.status(StatusCodes.OK).json(orders);
   };
+
+  public postOrder = async (req: Request, res: Response) => {
+    const orders = await this.orderService.create(req.body);
+    res.status(StatusCodes.CREATED).json(orders);
+  };
 }
