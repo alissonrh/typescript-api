@@ -35,7 +35,7 @@ export default class OrdersModel {
     const updateOrderIDs = productsIds
       .map((productId) => productModel.update(productId, insertId));
 
-    Promise.all(updateOrderIDs);
+    await Promise.all(updateOrderIDs);
 
     return { userId, productsIds };
   }

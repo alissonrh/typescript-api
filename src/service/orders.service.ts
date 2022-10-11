@@ -15,9 +15,7 @@ export default class OrdersService {
   }
 
   public async create(order: Orders): Promise<Orders> {
-    const orderProducts = await this.model.create(order);
-    console.log(orderProducts);
-    
+    const orderProducts = await this.model.create(order); 
     return orderProducts;
   }
 }
